@@ -1,8 +1,7 @@
 name: CI
 
 on:
-  push:
-    branches: [ main, develop ]
+  push:  # Runs on all branches
   pull_request:
     branches: [ main, develop ]
 
