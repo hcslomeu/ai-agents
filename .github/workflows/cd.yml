@@ -27,7 +27,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: yourusername/my-project
+        images: hcslomeu/ai-agents
         tags: |
           type=ref,event=branch
           type=semver,pattern={{version}}
@@ -40,7 +40,7 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        cache-from: type=registry,ref=yourusername/my-project:buildcache
-        cache-to: type=registry,ref=yourusername/my-project:buildcache,mode=max
+        cache-from: type=registry,ref=hcslomeu/ai-agents:buildcache
+        cache-to: type=registry,ref=hcslomeu/ai-agents:buildcache,mode=max
 
     # Add deployment steps here (e.g., to AWS, GCP, Azure, etc.)
