@@ -1,0 +1,32 @@
+# LangChain / LangGraph Environment
+# Uses OpenAI 2.x and the modern LangChain stack
+
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy and install requirements
+COPY requirements/langchain.txt requirements.txt
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# Copy source code
+COPY src/ ./src/
+
+# Default port for Streamlit/Gradio
+EXPOSE 8501 7860
+
+# Default: bash shell for interactive use
+# Override with: docker compose run langchain python src/langchain_examples/script.py
+CMD ["/bin/bash"]

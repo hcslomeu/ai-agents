@@ -1,55 +1,41 @@
-[project]
+[tool.poetry]
 name = "ai-agents"
 version = "0.1.0"
-description = ""
-authors = [
-    {name = "Humberto Lomeu",email = "hcslomeu@gmail.com"}
-]
+description = "AI Agents Portfolio - LangChain/LangGraph and CrewAI examples"
+authors = ["Humberto Lomeu <hcslomeu@gmail.com>"]
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-]
-
-[tool.poetry]
-name = "my-project"
-version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
 package-mode = false
 
 [tool.poetry.dependencies]
-python = ">=3.12, <4.0"
+python = ">=3.12,<3.14"
 
-# Web frameworks
-fastapi = "^0.125.0"
+# Note: AI/ML packages are managed via Docker containers
+# See requirements/langchain.txt and requirements/crewai.txt
+# Run with: docker compose run langchain or docker compose run crewai
+
+# Web frameworks (for local API development)
+fastapi = "^0.115.0"
 uvicorn = {extras = ["standard"], version = "^0.32.0"}
-streamlit = "^1.30.0"
+streamlit = "^1.40.0"
 
 # Database
 sqlalchemy = "^2.0.25"
 psycopg2-binary = "^2.9.9"
-# duckdb = "^0.10.0"  # Uncomment for DuckDB projects
 
 # Data processing
 pandas = "^2.2.0"
-pyarrow = "^17.0.0"  # For Parquet files
-# polars = "^0.20.0"  # Modern alternative to pandas
-
-# Cloud & Infrastructure
-# boto3 = "^1.34.0"  # AWS SDK
-# apache-airflow = "^2.8.0"  # Workflow orchestration
-# prefect = "^2.14.0"  # Modern alternative to Airflow
+pyarrow = "^17.0.0"
 
 # CLI tools
 typer = {extras = ["all"], version = "^0.9.0"}
-rich = "^13.7.0"  # Beautiful terminal output
+rich = "^13.7.0"
 
 # HTTP clients
-httpx = "^0.27.0"  # Modern async HTTP client (also used for testing FastAPI)
-requests = "^2.31.0"  # Traditional HTTP client
+httpx = "^0.27.0"
+requests = "^2.31.0"
 
 # Configuration
-pydantic = "^2.5.0"  # Data validation
+pydantic = "^2.5.0"
 pydantic-settings = "^2.1.0"
 python-dotenv = "^1.0.0"
 
@@ -67,7 +53,6 @@ bandit = "^1.7.6"
 pytest = "^8.0.0"
 pytest-cov = "^4.1.0"
 pytest-asyncio = "^0.23.0"
-# pytest-mock = "^3.12.0" # Use mock if you cannot reproduce the outcome of a function
 
 # Documentation
 mkdocs = "^1.5.3"
@@ -101,8 +86,6 @@ pip-audit
 test = "pytest -v --cov=src --cov-report=html"
 test-watch = "pytest -v --cov=src -f"
 kill = "kill -9 $(lsof -t -i :8000)"
-run = "python src/app/main.py"
-api = "uvicorn src.app.main:app --reload --host 0.0.0.0 --port 8000"
 doc = "mkdocs serve"
 doc-build = "mkdocs build"
 all = """
@@ -111,6 +94,10 @@ task lint
 task security
 task test
 """
+
+# Docker commands for AI environments
+langchain = "docker compose run --rm langchain"
+crewai = "docker compose run --rm crewai"
 
 [tool.black]
 line-length = 88

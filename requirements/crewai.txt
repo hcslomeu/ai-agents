@@ -1,0 +1,28 @@
+# CrewAI Stack
+# Note: CrewAI requires OpenAI 1.x (incompatible with LangChain's OpenAI 2.x)
+
+# Core CrewAI
+crewai>=0.80.0
+crewai-tools[mcp]>=0.17.0
+
+# LLM Providers (OpenAI 1.x will be installed by crewai)
+ollama>=0.4.0
+
+# Document processing
+pymupdf>=1.25.0
+pypdf>=5.0.0
+
+# Web & API
+httpx>=0.27.0
+requests>=2.31.0
+
+# Configuration
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# UI
+streamlit>=1.30.0
+
+# Utilities
+pytz>=2024.1

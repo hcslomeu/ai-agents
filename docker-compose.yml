@@ -1,55 +1,55 @@
-version: '3.8'
-
 services:
-  app:
+  # LangChain / LangGraph Environment
+  langchain:
     build:
       context: .
-      dockerfile: Dockerfile.dev
-    container_name: my-project-app
+      dockerfile: Dockerfile.langchain
+    container_name: ai-agents-langchain
     ports:
-      - "8000:8000"
+      - "8501:8501"   # Streamlit
+      - "7860:7860"   # Gradio
+      - "8000:8000"   # FastAPI
     volumes:
-      # Mount source code for hot-reload in development
       - ./src:/app/src
-      - ./tests:/app/tests
-    environment:
-      - ENVIRONMENT=development
-      - DATABASE_URL=postgresql://user:password@db:5432/mydb
-    depends_on:
-      - db
-    # For FastAPI
-    command: uvicorn src.app.main:app --host 0.0.0.0 --port 8000 --reload
+      - ./.env:/app/.env:ro
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
+    # Default: interactive shell. Override with specific commands:
+    # docker compose run langchain python src/langchain_examples/script.py
+    # docker compose run langchain streamlit run src/langchain_examples/app.py
 
+  # CrewAI Environment
+  crewai:
+    build:
+      context: .
+      dockerfile: Dockerfile.crewai
+    container_name: ai-agents-crewai
+    ports:
+      - "8502:8501"   # Streamlit (different host port)
+      - "8001:8000"   # FastAPI (different host port)
+    volumes:
+      - ./src:/app/src
+      - ./.env:/app/.env:ro
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
+
+  # Optional: PostgreSQL database
+  # Run with: docker compose --profile with-db up db
   db:
     image: postgres:15-alpine
-    container_name: my-project-db
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+    container_name: ai-agents-db
+    env_file:
+      - .env
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  # Optional: Redis for caching/queues
-  # redis:
-  #   image: redis:7-alpine
-  #   container_name: my-project-redis
-  #   ports:
-  #     - "6379:6379"
-
-  # Optional: Streamlit dashboard
-  # streamlit:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.dev
-  #   container_name: my-project-streamlit
-  #   ports:
-  #     - "8501:8501"
-  #   volumes:
-  #     - ./src:/app/src
-  #   command: streamlit run src/app/dashboard.py
+    profiles:
+      - with-db
 
 volumes:
   postgres_data:
