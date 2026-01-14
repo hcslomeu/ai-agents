@@ -1,6 +1,6 @@
-site_name: My Project Documentation
-site_description: Project documentation
-site_author: Your Name
+site_name: AI Agents Portfolio
+site_description: LangChain/LangGraph and CrewAI examples
+site_author: Humberto Lomeu
 
 theme:
   name: material
@@ -58,10 +58,9 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - API Reference: api.md
-  - Development: development.md
+  - Architecture Decision: architecture-decision.md
 
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/yourusername/my-project
+      link: https://github.com/hcslomeu/ai-agents

@@ -75,10 +75,10 @@ isort src/ tests/
 black src/ tests/
 """
 lint = """
-flake8 src/
-mypy src/
-pylint src/
+flake8 src/ --exclude=src/langchain_examples,src/crewai_examples
+pylint src/ --ignore=langchain_examples,crewai_examples
 """
+# Note: Docker-only dirs excluded - packages not installed locally
 security = """
 bandit -r src/ -c pyproject.toml
 pip-audit --ignore-vuln CVE-2025-54121 --ignore-vuln CVE-2025-62727
@@ -132,8 +132,17 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-v --strict-markers"
 
+[tool.flake8]
+exclude = [
+    "src/langchain_examples",
+    "src/crewai_examples",
+]
+
+[tool.pylint.main]
+ignore = ["langchain_examples", "crewai_examples"]
+
 [tool.bandit]
-exclude_dirs = ["tests"]
+exclude_dirs = ["tests", "src/langchain_examples", "src/crewai_examples"]
 skips = ["B101", "B104"]
 
 [build-system]

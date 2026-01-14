@@ -10,6 +10,9 @@ LangChain and CrewAI have incompatible dependencies:
 
 This project uses separate Docker containers to run both frameworks seamlessly.
 
+> **Note**: This monorepo architecture has trade-offs (CI/CD complexity vs. unified portfolio).
+> See [docs/architecture-decision.md](docs/architecture-decision.md) for the full rationale.
+
 ## Project Structure
 
 ```

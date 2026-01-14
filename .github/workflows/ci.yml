@@ -45,10 +45,9 @@ jobs:
       run: |
         poetry run black src/ tests/ --check
         poetry run isort src/ tests/ --check-only
-        poetry run flake8 src/
-        # Note: mypy skipped - all code is in Docker-only dirs (langchain_examples, crewai_examples)
-        # Type checking happens inside Docker containers where packages are installed
-        poetry run pylint src/
+        # Note: flake8/pylint skip Docker-only dirs - packages not installed in CI
+        poetry run flake8 src/ --exclude=src/langchain_examples,src/crewai_examples
+        poetry run pylint src/ --ignore=langchain_examples,crewai_examples
 
     - name: Run security checks
       run: |
