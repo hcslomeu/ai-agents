@@ -81,8 +81,11 @@ pylint src/
 """
 security = """
 bandit -r src/ -c pyproject.toml
-pip-audit
+pip-audit --ignore-vuln CVE-2025-54121 --ignore-vuln CVE-2025-62727
 """
+# Note: CVE-2025-54121 and CVE-2025-62727 are starlette vulnerabilities
+# FastAPI doesn't support the patched starlette (>=0.49.1) yet
+# Remove --ignore-vuln flags once FastAPI is updated
 test = "pytest -v --cov=src --cov-report=html"
 test-watch = "pytest -v --cov=src -f"
 kill = "kill -9 $(lsof -t -i :8000)"

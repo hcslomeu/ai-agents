@@ -52,7 +52,8 @@ jobs:
     - name: Run security checks
       run: |
         poetry run bandit -r src/ -c pyproject.toml
-        poetry run pip-audit
+        # Ignore starlette CVEs until FastAPI supports patched version (>=0.49.1)
+        poetry run pip-audit --ignore-vuln CVE-2025-54121 --ignore-vuln CVE-2025-62727
 
     - name: Run tests
       run: poetry run pytest --cov=src --cov-report=xml --cov-report=html
@@ -70,8 +71,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Build Docker image
-      run: docker build -t my-project:latest .
+    - name: Build LangChain Docker image
+      run: docker build -f Dockerfile.langchain -t ai-agents:langchain .
 
-    - name: Test Docker image
-      run: docker run --rm my-project:latest python --version
+    - name: Build CrewAI Docker image
+      run: docker build -f Dockerfile.crewai -t ai-agents:crewai .
+
+    - name: Test Docker images
+      run: |
+        docker run --rm ai-agents:langchain python --version
+        docker run --rm ai-agents:crewai python --version
