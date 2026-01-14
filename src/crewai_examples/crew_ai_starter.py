@@ -44,9 +44,7 @@ def create_linkedin_content_agent(topic: str) -> Crew:
 
 
 if __name__ == "__main__":
-    topic = (
-        "The future of Large Language Models in AI"  # Example, can be dynamically set
-    )
+    topic = "The future of Large Language Models in AI"
     crew = create_linkedin_content_agent(topic)
     result = crew.kickoff()
     print("Generated LinkedIn Post:\n", result)
