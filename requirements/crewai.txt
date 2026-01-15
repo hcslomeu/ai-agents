@@ -7,6 +7,8 @@ crewai-tools[mcp]>=0.17.0
 
 # LLM Providers (OpenAI 1.x will be installed by crewai)
 ollama>=0.4.0
+litellm  # Required by CrewAI for Ollama and other providers
+apscheduler  # For litellm logging
 
 # Document processing
 pymupdf>=1.25.0
@@ -15,6 +17,7 @@ pypdf>=5.0.0
 # Web & API
 httpx>=0.27.0
 requests>=2.31.0
+fastapi>=0.115.0  # Required by litellm for logging
 
 # Configuration
 python-dotenv>=1.0.0
